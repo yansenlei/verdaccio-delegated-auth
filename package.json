@@ -1,0 +1,22 @@
+{
+  "name": "verdaccio-delegated-auth",
+  "version": "0.0.1",
+  "description": "verdaccio(sinopia) authentication plugin that delegates authentication to another HTTP URL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sinopia",
+    "verdaccio"
+  ],
+  "author": "leiyswork@163.com",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:yansenlei/verdaccio-delegated-auth.git"
+  }
+}
