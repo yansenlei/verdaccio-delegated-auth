@@ -16,11 +16,15 @@ function DelegatedAuthentication(config, stuff) {
 
 DelegatedAuthentication.prototype.authenticate = function (user, password, cb) {
   let params = {}
-  params[this._config.user_key || 'user'] = user
+  params[this._config.user_key || 'username'] = user
   params[this._config.pwd_key || 'password'] = password
   axios.post(this._config.url, params)
-  .then(function (response) {
-    return cb(null, [user])
+  .then(function (res) {
+    if(res.data.error) { // json-rpc error
+      return cb(null, false)
+    } else { // success: RESTful or json-rpc
+      return cb(null, [user])
+    }
   })
   .catch(function (error) {
     return cb(null, false)
