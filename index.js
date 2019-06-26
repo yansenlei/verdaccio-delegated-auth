@@ -21,13 +21,13 @@ function DelegatedAuthentication(config, stuff) {
 
 DelegatedAuthentication.prototype.authenticate = function (user, password, cb) {
   let self = this
-  let params = {}
   let _user = this._config.email ? `${user}@${this._config.email}` : user
-  params[this._config.user_key || 'username'] = _user
-  params[this._config.pwd_key || 'password'] = password
-  if(ch[user] && ch[user] > new Date().getTime()) {
+  if(ch[user] && ch[user]['password'] === password && ch[user]['date'] > new Date().getTime()) {
     return cb(null, [user])
   } else {
+    let params = {}
+    params[this._config.user_key || 'username'] = _user
+    params[this._config.pwd_key || 'password'] = password
     self._logger.warn('Authentication request: ', _user)
     axios.post(self._config.url, params)
     .then(function (res) {
@@ -36,7 +36,10 @@ DelegatedAuthentication.prototype.authenticate = function (user, password, cb) {
         return cb(null, false)
       } else { // success: supports API style for RESTful and JSON-rpc
         self._logger.warn('Authentication succeeded')
-        ch[user] = new Date().getTime() + 1000 * (self._config.cache || DEFAULT_CACHE)
+        ch[user] = {
+          password: password,
+          date: new Date().getTime() + 1000 * (self._config.cache || DEFAULT_CACHE)
+        }
         return cb(null, [user])
       }
     })
