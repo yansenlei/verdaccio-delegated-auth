@@ -1,6 +1,6 @@
 {
   "name": "verdaccio-delegated-auth",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "verdaccio(sinopia) authentication plugin that delegates authentication to another HTTP URL",
   "main": "index.js",
   "scripts": {
